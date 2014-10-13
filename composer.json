@@ -10,7 +10,6 @@
             "email": "daviddelevoye@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
         "doctrine/common": ">=2.0"
     },
