@@ -43,7 +43,7 @@ class TranslationProxy implements TranslationProxyInterface
 
         $class = get_class($this->translatable);
 
-        if ($this->translatable instanceof \Doctrine\ORM\Proxy\Proxy) {
+        if ($this->translatable instanceof \Doctrine\Common\Persistence\Proxy) {
             $class = \Doctrine\Common\Util\ClassUtils::getRealClass($class);
         }
 
