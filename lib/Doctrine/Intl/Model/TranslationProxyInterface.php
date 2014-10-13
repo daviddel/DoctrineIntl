@@ -1,6 +1,6 @@
 <?php
 
-namespace EcommerceAPI\ModelIntlBundle\Model;
+namespace Doctrine\Intl\Model;
 
 interface TranslationProxyInterface
 {

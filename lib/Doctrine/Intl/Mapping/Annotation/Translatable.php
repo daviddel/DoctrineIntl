@@ -1,6 +1,6 @@
 <?php
 
-namespace EcommerceAPI\ModelIntlBundle\Mapping\Annotation;
+namespace Doctrine\Intl\Mapping\Annotation;
 
 use Doctrine\Common\Annotations\Annotation;
 

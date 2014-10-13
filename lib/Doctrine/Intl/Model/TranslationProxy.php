@@ -1,6 +1,6 @@
 <?php
 
-namespace EcommerceAPI\ModelIntlBundle\Model;
+namespace Doctrine\Intl\Model;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 
@@ -64,7 +64,7 @@ class TranslationProxy implements TranslationProxyInterface
         $reader = new AnnotationReader();
         $annotationClass = $reader->getClassAnnotation(
             $reflectionClass,
-            'EcommerceAPI\\ModelIntlBundle\\Mapping\\Annotation\\TranslationEntity');
+            'Doctrine\\Intl\\Mapping\\Annotation\\TranslationEntity');
 
         $class = $annotationClass->class;
         if (!class_exists($class)) {
@@ -90,12 +90,12 @@ class TranslationProxy implements TranslationProxyInterface
         foreach($reflectionClass->getProperties() as $property) {
             if ($translatableProp = $reader->getPropertyAnnotation(
                 $property,
-                'EcommerceAPI\\ModelIntlBundle\\Mapping\\Annotation\\Translatable')) {
+                'Doctrine\\Intl\\Mapping\\Annotation\\Translatable')) {
                 $translation->setTranslatable($this->translatable);
             }
             if ($localeProp = $reader->getPropertyAnnotation(
                 $property,
-                'EcommerceAPI\\ModelIntlBundle\\Mapping\\Annotation\\TranslatableLocale')) {
+                'Doctrine\\Intl\\Mapping\\Annotation\\TranslatableLocale')) {
                 $translation->setLocale($locale);
             }
         }

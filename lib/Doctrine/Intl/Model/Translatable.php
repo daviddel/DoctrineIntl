@@ -1,6 +1,6 @@
 <?php
 
-namespace EcommerceAPI\ModelIntlBundle\Model;
+namespace Doctrine\Intl\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
