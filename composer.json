@@ -1,7 +1,7 @@
 {
     "name": "ecommerce-api/model-intl-bundle",
     "type": "symfony-bundle",
-    "description": "Symfony ECommerceAPIIntlBundle",
+    "description": "Symfony Model Internationalization Bundle",
     "keywords": ["Internationalization"],
     "license": "MIT",
     "authors": [
