@@ -64,9 +64,9 @@ class TranslationProxy implements TranslationProxyInterface
         $reader = new AnnotationReader();
         $annotationClass = $reader->getClassAnnotation(
             $reflectionClass,
-            'Doctrine\\Intl\\Mapping\\Annotation\\TranslationEntity');
+            'Doctrine\\Intl\\Mapping\\Annotation\\TranslatableEntity');
 
-        $class = $annotationClass->class;
+        $class = $annotationClass->translationClass;
         if (!class_exists($class)) {
             $class = $namespace . '\\' . $class;
         }
