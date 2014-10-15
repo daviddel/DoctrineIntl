@@ -24,6 +24,7 @@ class TranslatableSubscriber implements EventSubscriber
     private $translatableFetchMode;
     private $translationFetchMode;
 
+    /*
     public function __construct(callable $currentLocaleCallable = null,
                                 $translatableTrait, $translationTrait, $translatableFetchMode, $translationFetchMode)
     {
@@ -33,6 +34,7 @@ class TranslatableSubscriber implements EventSubscriber
         $this->translatableFetchMode = $this->convertFetchString($translatableFetchMode);
         $this->translationFetchMode = $this->convertFetchString($translationFetchMode);
     }
+    */
 
     /**
      * Adds mapping to the translatable and translations.

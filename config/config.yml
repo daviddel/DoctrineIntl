@@ -1,32 +1,32 @@
 parameters:
-    knp.doctrine_behaviors.translatable_subscriber.class: Knp\DoctrineBehaviors\ORM\Translatable\TranslatableSubscriber
-    knp.doctrine_behaviors.translatable_subscriber.current_locale_callable.class: Knp\DoctrineBehaviors\ORM\Translatable\CurrentLocaleCallable
-    knp.doctrine_behaviors.translatable_subscriber.translatable_trait: Knp\DoctrineBehaviors\Model\Translatable\Translatable
-    knp.doctrine_behaviors.translatable_subscriber.translation_trait: Knp\DoctrineBehaviors\Model\Translatable\Translation
-    knp.doctrine_behaviors.translatable_subscriber.translatable_fetch_method: LAZY
-    knp.doctrine_behaviors.translatable_subscriber.translation_fetch_method: LAZY
+    doctrine.intl.translatable_subscriber.class: Doctrine\Intl\Model\ORM\TranslatableSubscriber
+    #doctrine.intl.translatable_subscriber.current_locale_callable.class: Doctrine\Intl\ORM\Translatable\CurrentLocaleCallable
+    #doctrine.intl.translatable_subscriber.translatable_trait: Doctrine\Intl\Model\Translatable\Translatable
+    #doctrine.intl.translatable_subscriber.translation_trait: Doctrine\Intl\Model\Translatable\Translation
+    #doctrine.intl.translatable_subscriber.translatable_fetch_method: LAZY
+    #doctrine.intl.translatable_subscriber.translation_fetch_method: LAZY
 
 services:
-    knp.doctrine_behaviors.reflection.class_analyzer:
-        class:   "%knp.doctrine_behaviors.reflection.class_analyzer.class%"
-        public:  false
+    #doctrine.intl.reflection.class_analyzer:
+    #    class:   "%doctrine.intl.reflection.class_analyzer.class%"
+    #    public:  false
 
-    knp.doctrine_behaviors.translatable_subscriber:
-        class:   "%knp.doctrine_behaviors.translatable_subscriber.class%"
+    doctrine.intl.translatable_subscriber:
+        class:   "%doctrine.intl.translatable_subscriber.class%"
         public:  false
-        arguments:
-            - "@knp.doctrine_behaviors.reflection.class_analyzer"
-            - "%knp.doctrine_behaviors.reflection.is_recursive%"
-            - "@knp.doctrine_behaviors.translatable_subscriber.current_locale_callable"
-            - "%knp.doctrine_behaviors.translatable_subscriber.translatable_trait%"
-            - "%knp.doctrine_behaviors.translatable_subscriber.translation_trait%"
-            - "%knp.doctrine_behaviors.translatable_subscriber.translatable_fetch_method%"
-            - "%knp.doctrine_behaviors.translatable_subscriber.translation_fetch_method%"
+        #arguments:
+        #    - "@doctrine.intl.reflection.class_analyzer"
+        #    - "%doctrine.intl.reflection.is_recursive%"
+        #    - "@doctrine.intl.translatable_subscriber.current_locale_callable"
+        #    - "%doctrine.intl.translatable_subscriber.translatable_trait%"
+        #    - "%doctrine.intl.translatable_subscriber.translation_trait%"
+        #    - "%doctrine.intl.translatable_subscriber.translatable_fetch_method%"
+        #    - "%doctrine.intl.translatable_subscriber.translation_fetch_method%"
         tags:
             - { name: doctrine.event_subscriber }
 
-    knp.doctrine_behaviors.translatable_subscriber.current_locale_callable:
-        class: "%knp.doctrine_behaviors.translatable_subscriber.current_locale_callable.class%"
-        arguments:
-            - "@service_container" # lazy request resolution
-        public:  false
+    #doctrine.intl.translatable_subscriber.current_locale_callable:
+    #    class: "%doctrine.intl.translatable_subscriber.current_locale_callable.class%"
+    #    arguments:
+    #        - "@service_container" # lazy request resolution
+    #    public:  false
