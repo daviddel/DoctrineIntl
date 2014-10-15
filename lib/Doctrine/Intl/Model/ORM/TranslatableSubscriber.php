@@ -2,39 +2,26 @@
 
 namespace Doctrine\Intl\Model\ORM;
 
-use Knp\DoctrineBehaviors\Reflection\ClassAnalyzer;
+use Doctrine\Intl\Model\TranslatableInterface,
+    Doctrine\Intl\Model\TranslationInterface;
 
-use Doctrine\Common\EventSubscriber,
+use Doctrine\Common\Annotations\AnnotationReader,
+    Doctrine\Common\EventSubscriber,
     Doctrine\ORM\Mapping\ClassMetadata,
     Doctrine\ORM\Mapping\ClassMetadataInfo,
     Doctrine\ORM\Event\LoadClassMetadataEventArgs,
-    Doctrine\ORM\Event\LifecycleEventArgs,
     Doctrine\ORM\Events;
 
-/**
- * Translatable Doctrine2 subscriber.
- *
- * Provides mapping for translatable entities and their translations.
- */
 class TranslatableSubscriber implements EventSubscriber
 {
-    private $currentLocaleCallable;
-    private $translatableTrait;
-    private $translationTrait;
     private $translatableFetchMode;
     private $translationFetchMode;
 
-    /*
-    public function __construct(callable $currentLocaleCallable = null,
-                                $translatableTrait, $translationTrait, $translatableFetchMode, $translationFetchMode)
+    public function __construct($translatableFetchMode, $translationFetchMode)
     {
-        $this->currentLocaleCallable = $currentLocaleCallable;
-        $this->translatableTrait = $translatableTrait;
-        $this->translationTrait = $translationTrait;
         $this->translatableFetchMode = $this->convertFetchString($translatableFetchMode);
         $this->translationFetchMode = $this->convertFetchString($translationFetchMode);
     }
-    */
 
     /**
      * Adds mapping to the translatable and translations.
@@ -45,7 +32,7 @@ class TranslatableSubscriber implements EventSubscriber
     {
         $classMetadata = $eventArgs->getClassMetadata();
 
-        if (null === $classMetadata->reflClass) {
+        if (null === $classMetadata->getReflectionClass()) {
             return;
         }
 
@@ -58,45 +45,60 @@ class TranslatableSubscriber implements EventSubscriber
         }
     }
 
+    /**
+     * @param ClassMetadata $classMetadata
+     */
     private function mapTranslatable(ClassMetadata $classMetadata)
     {
         if (!$classMetadata->hasAssociation('translations')) {
-            $classMetadata->mapOneToMany([
+            $classMetadata->mapOneToMany(array(
                 'fieldName'     => 'translations',
                 'mappedBy'      => 'translatable',
                 'indexBy'       => 'locale',
-                'cascade'       => ['persist', 'merge', 'remove'],
+                'cascade'       => array('all'),
                 'fetch'         => $this->translatableFetchMode,
-                'targetEntity'  => $classMetadata->name.'Translation',
+                'targetEntity'  => $this->getClassName($classMetadata),
                 'orphanRemoval' => true
-            ]);
+            ));
         }
     }
 
+    /**
+     * @param ClassMetadata $classMetadata
+     * @throws \Doctrine\ORM\Mapping\MappingException
+     */
     private function mapTranslation(ClassMetadata $classMetadata)
     {
         if (!$classMetadata->hasAssociation('translatable')) {
-            $classMetadata->mapManyToOne([
+            $classMetadata->mapManyToOne(array(
                 'fieldName'     => 'translatable',
                 'inversedBy'    => 'translations',
                 'fetch'         => $this->translationFetchMode,
-                'joinColumns'   => [[
+                'joinColumns'   => array(array(
                     'name'                 => 'translatable_id',
                     'referencedColumnName' => 'id',
                     'onDelete'             => 'CASCADE'
-                ]],
-                'targetEntity' => substr($classMetadata->name, 0, -11)
-            ]);
+                )),
+                'targetEntity' => $this->getClassName($classMetadata)
+            ));
+        }
+
+        if (!$classMetadata->hasField('locale')) {
+            $classMetadata->mapField(array(
+                'fieldName'     => 'locale',
+                'type'          => 'string',
+                'length'        => 10
+            ));
         }
 
         $name = $classMetadata->getTableName().'_unique_translation';
         if (!$this->hasUniqueTranslationConstraint($classMetadata, $name)) {
-            $classMetadata->setPrimaryTable([
-                'uniqueConstraints' => [[
+            $classMetadata->setPrimaryTable(array(
+                'uniqueConstraints' => array(array(
                     'name'    => $name,
-                    'columns' => ['translatable_id', 'locale']
-                ]],
-            ]);
+                    'columns' => array('translatable_id', 'locale')
+                )),
+            ));
         }
     }
 
@@ -104,13 +106,15 @@ class TranslatableSubscriber implements EventSubscriber
      * Convert string FETCH mode to required string
      *
      * @param $fetchMode
-     *
      * @return int
      */
-    private function convertFetchString($fetchMode){
-        if (is_int($fetchMode)) return $fetchMode;
+    private function convertFetchString($fetchMode)
+    {
+        if (is_int($fetchMode)) {
+            return $fetchMode;
+        }
 
-        switch($fetchMode){
+        switch ($fetchMode) {
             case "LAZY":
                 return ClassMetadataInfo::FETCH_LAZY;
             case "EAGER":
@@ -122,14 +126,40 @@ class TranslatableSubscriber implements EventSubscriber
         }
     }
 
+    /**
+     * @param ClassMetadata $classMetadata
+     * @return string
+     */
+    private function getClassName(ClassMetadata $classMetadata)
+    {
+        $namespace = $classMetadata->getReflectionClass()->getNamespaceName();
+
+        $annotation = 'Doctrine\\Intl\\Mapping\\Annotation\\TranslationEntity';
+        if ($isTranslatable = $this->isTranslatable($classMetadata)) {
+            $annotation = 'Doctrine\\Intl\\Mapping\\Annotation\\TranslatableEntity';
+        }
+
+        $reader = new AnnotationReader();
+        $annotationClass = $reader->getClassAnnotation(
+            $classMetadata->getReflectionClass(),
+            $annotation);
+
+        $class = $isTranslatable ? $annotationClass->translationClass : $annotationClass->translatableClass;
+        if (!class_exists($class)) {
+            $class = $namespace . '\\' . $class;
+        }
+
+        return $class;
+    }
+
     private function hasUniqueTranslationConstraint(ClassMetadata $classMetadata, $name)
     {
         if (!isset($classMetadata->table['uniqueConstraints'])) {
-            return;
+            return false;
         }
 
         $constraints = array_filter($classMetadata->table['uniqueConstraints'], function($constraint) use ($name) {
-            return $name === $constraint['name'];
+            return (isset($constraint['name']) && $name === $constraint['name']);
         });
 
         return 0 !== count($constraints);
@@ -139,44 +169,22 @@ class TranslatableSubscriber implements EventSubscriber
      * Checks if entity is translatable
      *
      * @param ClassMetadata $classMetadata
-     * @param bool          $isRecursive   true to check for parent classes until found
-     *
      * @return boolean
      */
-    private function isTranslatable(ClassMetadata $classMetadata, $isRecursive = false)
+    private function isTranslatable(ClassMetadata $classMetadata)
     {
-        return $this->getClassAnalyzer()->hasTrait($classMetadata->reflClass, $this->translatableTrait, $this->isRecursive);
+        return $classMetadata->newInstance() instanceof TranslatableInterface;
     }
 
     /**
+     * Checks if entity is a translation
+     *
      * @param  ClassMetadata $classMetadata
      * @return boolean
      */
     private function isTranslation(ClassMetadata $classMetadata)
     {
-        return $this->getClassAnalyzer()->hasTrait($classMetadata->reflClass, $this->translationTrait, $this->isRecursive);
-    }
-
-    public function postLoad(LifecycleEventArgs $eventArgs)
-    {
-        $em            = $eventArgs->getEntityManager();
-        $entity        = $eventArgs->getEntity();
-        $classMetadata = $em->getClassMetadata(get_class($entity));
-
-        if (!$this->getClassAnalyzer()->hasMethod($classMetadata->reflClass, 'setCurrentLocale')) {
-            return;
-        }
-
-        if ($locale = $this->getCurrentLocale()) {
-            $entity->setCurrentLocale($locale);
-        }
-    }
-
-    private function getCurrentLocale()
-    {
-        if ($currentLocaleCallable = $this->currentLocaleCallable) {
-            return $currentLocaleCallable();
-        }
+        return $classMetadata->newInstance() instanceof TranslationInterface;
     }
 
     /**
@@ -186,9 +194,8 @@ class TranslatableSubscriber implements EventSubscriber
      */
     public function getSubscribedEvents()
     {
-        return [
-            Events::loadClassMetadata,
-            Events::postLoad,
-        ];
+        return array(
+            Events::loadClassMetadata
+        );
     }
 }

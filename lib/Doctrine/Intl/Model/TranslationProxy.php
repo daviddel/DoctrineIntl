@@ -83,23 +83,8 @@ class TranslationProxy implements TranslationProxyInterface
     {
         /** @var TranslationInterface $translation */
         $translation = new $class();
-
-        $reader = new AnnotationReader();
-
-        $reflectionClass = new \ReflectionClass($class);
-        foreach($reflectionClass->getProperties() as $property) {
-            if ($translatableProp = $reader->getPropertyAnnotation(
-                $property,
-                'Doctrine\\Intl\\Mapping\\Annotation\\Translatable')) {
-                $translation->setTranslatable($this->translatable);
-            }
-            if ($localeProp = $reader->getPropertyAnnotation(
-                $property,
-                'Doctrine\\Intl\\Mapping\\Annotation\\TranslatableLocale')) {
-                $translation->setLocale($locale);
-            }
-        }
-
+        $translation->setTranslatable($this->translatable);
+        $translation->setLocale($locale);
         $this->translatable->addTranslation($translation);
 
         return $translation;
