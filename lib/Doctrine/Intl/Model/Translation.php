@@ -2,7 +2,7 @@
 
 namespace Doctrine\Intl\Model;
 
-class Translation implements TranslationInterface
+trait Translation
 {
     /**
      * @var TranslatableInterface
