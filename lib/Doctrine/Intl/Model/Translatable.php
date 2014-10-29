@@ -5,7 +5,7 @@ namespace Doctrine\Intl\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-class Translatable implements TranslatableInterface
+trait Translatable
 {
     /**
      * @var Collection
