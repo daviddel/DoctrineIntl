@@ -77,7 +77,8 @@ class TranslatableSubscriber implements EventSubscriber
                 'joinColumns'   => array(array(
                     'name'                 => 'translatable_id',
                     'referencedColumnName' => 'id',
-                    'onDelete'             => 'CASCADE'
+                    'onDelete'             => 'CASCADE',
+                    'nullable'             => false
                 )),
                 'targetEntity' => $this->getClassName($classMetadata)
             ));
