@@ -1,6 +1,6 @@
 <?php
 
-namespace Doctrine\Intl\Mapping\Annotation;
+namespace DavidDel\IntlBundle\Mapping\Annotation;
 
 use Doctrine\Common\Annotations\Annotation;
 
@@ -8,11 +8,11 @@ use Doctrine\Common\Annotations\Annotation;
  * @Annotation
  * @Target("CLASS")
  */
-final class TranslatableEntity extends Annotation
+final class TranslationEntity extends Annotation
 {
     /**
      * @var string
      * @Required
      */
-    public $translationClass;
+    public $translatableClass;
 }
