@@ -1,6 +1,6 @@
 <?php
 
-namespace DavidDel\IntlBundle\Mapping\Annotation;
+namespace DavidDel\DoctrineIntlBundle\Mapping\Annotation;
 
 use Doctrine\Common\Annotations\Annotation;
 
