@@ -1,5 +1,5 @@
 {
-    "name": "daviddel/doctrine-intl",
+    "name": "daviddel/doctrine-intl-bundle",
     "type": "library",
     "description": "Internationalization Doctrine Objects",
     "keywords": ["Internationalization"],
