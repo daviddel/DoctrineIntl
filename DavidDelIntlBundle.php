@@ -1,15 +1,15 @@
 <?php
 
-namespace DavidDel\IntlBundle\ManagerBundle;
+namespace DavidDel\DoctrineIntlBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * Description of DoctrineIntlBundle
+ * Description of DavidDelDoctrineIntlBundle
  *
  * @author jewome62
  */
-class DavidDelIntlBundle extends Bundle
+class DavidDelDoctrineIntlBundle extends Bundle
 {
     //put your code here
 }

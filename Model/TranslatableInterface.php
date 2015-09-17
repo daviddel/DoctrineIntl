@@ -1,6 +1,6 @@
 <?php
 
-namespace DavidDel\IntlBundle\Model;
+namespace DavidDel\DoctrineIntlBundle\Model;
 
 use Doctrine\Common\Collections\Collection;
 
