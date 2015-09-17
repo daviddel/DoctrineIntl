@@ -1,6 +1,6 @@
 <?php
 
-namespace DavidDel\IntlBundle\DependencyInjection;
+namespace DavidDel\DoctrineIntlBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -18,14 +18,14 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('daviddel_intl');
+        $rootNode = $treeBuilder->root('daviddel_doctrine_intl');
 
         $rootNode
             ->children()
                 ->arrayNode('translatable_subscriber')
                     ->children()
                         ->scalarNode('class')
-                            ->defaultValue('DavidDel\\IntlBundle\\Model\\ORM\\TranslatableSubscriber')
+                            ->defaultValue('DavidDel\\DoctrineIntlBundle\\Model\\ORM\\TranslatableSubscriber')
                         ->end()
                         ->scalarNode('translatable_fetch_method')
                             ->defaultValue('LAZY')

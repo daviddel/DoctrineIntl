@@ -1,16 +1,16 @@
-#DavidDel/IntlBundle
+#DavidDel/DoctrineIntlBundle
 ----------
 Internationalization Doctrine Objects
 
 ## Installation
 
 ```bash
-composer require soa-commerce/doctrine-intl
+composer require daviddel/doctrine-intl
 ```
 
 and in AppKernel.php
 
 ```php
-new DavidDel\IntlBundle\DavidDelIntlBundle(),
+new DavidDel\DoctrineIntlBundle\DavidDelIntlBundle(),
 ```
      

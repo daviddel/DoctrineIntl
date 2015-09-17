@@ -1,6 +1,6 @@
 <?php
 
-namespace DavidDel\IntlBundle\Model;
+namespace DavidDel\DoctrineIntlBundle\Model;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 
@@ -64,7 +64,7 @@ class TranslationProxy implements TranslationProxyInterface
         $reader = new AnnotationReader();
         $annotationClass = $reader->getClassAnnotation(
             $reflectionClass,
-            'Doctrine\\Intl\\Mapping\\Annotation\\TranslatableEntity');
+            'DavidDel\\DoctrineIntlBundle\\Mapping\\Annotation\\TranslatableEntity');
 
         $class = $annotationClass->translationClass;
         if (!class_exists($class)) {

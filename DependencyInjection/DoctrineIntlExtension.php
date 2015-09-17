@@ -1,6 +1,6 @@
 <?php
 
-namespace DavidDel\IntlBundle\DependencyInjection;
+namespace DavidDel\DoctrineIntlBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
