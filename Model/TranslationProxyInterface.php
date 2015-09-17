@@ -1,6 +1,6 @@
 <?php
 
-namespace Doctrine\Intl\Model;
+namespace DavidDel\IntlBundle\Model;
 
 interface TranslationProxyInterface
 {

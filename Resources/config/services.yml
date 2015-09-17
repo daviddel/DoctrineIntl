@@ -1,0 +1,9 @@
+services:
+    daviddel_intl.translatable_subscriber:
+        class:   "%daviddel_intl.translatable_subscriber.class%"
+        public:  false
+        arguments:
+            - "%daviddel_intl.translatable_subscriber.translatable_fetch_method%"
+            - "%daviddel_intl.translatable_subscriber.translation_fetch_method%"
+        tags:
+            - { name: doctrine.event_subscriber }

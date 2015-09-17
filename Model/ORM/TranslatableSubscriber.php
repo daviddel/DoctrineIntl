@@ -1,16 +1,15 @@
 <?php
 
-namespace Doctrine\Intl\Model\ORM;
+namespace DavidDel\IntlBundle\Model\ORM;
 
-use Doctrine\Intl\Model\TranslatableInterface,
-    Doctrine\Intl\Model\TranslationInterface;
-
-use Doctrine\Common\Annotations\AnnotationReader,
-    Doctrine\Common\EventSubscriber,
-    Doctrine\ORM\Mapping\ClassMetadata,
-    Doctrine\ORM\Mapping\ClassMetadataInfo,
-    Doctrine\ORM\Event\LoadClassMetadataEventArgs,
-    Doctrine\ORM\Events;
+use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\Common\EventSubscriber;
+use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
+use Doctrine\ORM\Events;
+use DavidDel\IntlBundle\Model\TranslatableInterface;
+use DavidDel\IntlBundle\Model\TranslationInterface;
 
 class TranslatableSubscriber implements EventSubscriber
 {
@@ -135,9 +134,9 @@ class TranslatableSubscriber implements EventSubscriber
     {
         $namespace = $classMetadata->getReflectionClass()->getNamespaceName();
 
-        $annotation = 'Doctrine\\Intl\\Mapping\\Annotation\\TranslationEntity';
+        $annotation = 'DavidDel\\IntlBundle\\Mapping\\Annotation\\TranslationEntity';
         if ($isTranslatable = $this->isTranslatable($classMetadata)) {
-            $annotation = 'Doctrine\\Intl\\Mapping\\Annotation\\TranslatableEntity';
+            $annotation = 'DavidDel\\IntlBundle\\Mapping\\Annotation\\TranslatableEntity';
         }
 
         $reader = new AnnotationReader();
