@@ -173,7 +173,7 @@ class TranslatableSubscriber implements EventSubscriber
      */
     private function isTranslatable(ClassMetadata $classMetadata)
     {
-        if (!$classMetadata->getReflectionClass()->isAbstract()) {
+        if ($classMetadata->getReflectionClass()->isInstantiable()) {
             return $classMetadata->newInstance() instanceof TranslatableInterface;
         }
         return false;
@@ -187,7 +187,7 @@ class TranslatableSubscriber implements EventSubscriber
      */
     private function isTranslation(ClassMetadata $classMetadata)
     {
-        if (!$classMetadata->getReflectionClass()->isAbstract()) {
+        if ($classMetadata->getReflectionClass()->isInstantiable()) {
             return $classMetadata->newInstance() instanceof TranslationInterface;
         }
         return false;
