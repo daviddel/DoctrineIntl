@@ -1,6 +1,6 @@
 <?php
 
-namespace DavidDel\DoctrineIntlBundle\ManagerBundle;
+namespace DavidDel\DoctrineIntlBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
