@@ -1,9 +1,9 @@
 services:
     daviddel_doctrine_intl.translatable_subscriber:
-        class:   "%daviddel_doctrine_intl.translatable_subscriber.class%"
+        class:   "%david_del_doctrine_intl.translatable_subscriber.class%"
         public:  false
         arguments:
-            - "%daviddel_doctrine_intl.translatable_subscriber.translatable_fetch_method%"
-            - "%daviddel_doctrine_intl.translatable_subscriber.translation_fetch_method%"
+            - "%david_del_doctrine_intl.translatable_subscriber.translatable_fetch_method%"
+            - "%david_del_doctrine_intl.translatable_subscriber.translation_fetch_method%"
         tags:
             - { name: doctrine.event_subscriber }

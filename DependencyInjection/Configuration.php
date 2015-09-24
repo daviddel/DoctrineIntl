@@ -18,11 +18,12 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('daviddel_doctrine_intl');
+        $rootNode = $treeBuilder->root('david_del_doctrine_intl');
 
         $rootNode
             ->children()
                 ->arrayNode('translatable_subscriber')
+                    ->addDefaultsIfNotSet()
                     ->children()
                         ->scalarNode('class')
                             ->defaultValue('DavidDel\\DoctrineIntlBundle\\Model\\ORM\\TranslatableSubscriber')
