@@ -79,22 +79,6 @@ trait Translatable
             $locale = array_pop($arguments);
         }
 
-        return call_user_func_array(array($this->getTranslationProxy($locale), $method), $arguments);
-    }
-
-    public function __get($property)
-    {
-        if (property_exists($this->getTranslation(), $property)) {
-            $getter = 'get'.ucfirst($property);
-            return $this->getTranslation()->$getter();
-        }
-    }
-
-    public function __set($property, $value)
-    {
-        if (property_exists($this->getTranslation(), $property)) {
-            $setter = 'set'.ucfirst($property);
-            return $this->getTranslation()->$setter($value);
-        }
+        return call_user_func_array(array($this->getTranslation($locale), $method), $arguments);
     }
 } 
